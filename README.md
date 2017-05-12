@@ -7,7 +7,7 @@
 	  $("#fileupload").change(function () {
 		  bucket_name="bucket_name";              //服务名称
 		  opename="opename";                      //操作员账号
-		  opepass="opename";                      //操作员密码
+		  opepass="opepass";                      //操作员密码
 		  save_as="/rest.jpg";                    //保存路径
 		  acc_point="http://v0.api.upyun.com/";
 		  date=(new Date()).toUTCString();
