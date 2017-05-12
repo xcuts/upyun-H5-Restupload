@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<head>
+<title>H5-put上传demo</title>
+<script src="js/jquery-3.2.1.js"></script>
+<script src="js/spark-md5.js"></script>
+<script>
+$(document).ready(function () {
+	$("#fileupload").change(function () {
+		bucket_name="bucket_name";              //服务名称
+		opename="opename";                      //操作员账号
+		opepass="opename";                      //操作员密码
+		save_as="/rest.jpg";                    //保存路径
+		acc_point="http://v0.api.upyun.com/";
+		date=(new Date()).toUTCString();
+		file=$(this).get(0).files[0];
+		sign=SparkMD5.hash("PUT&/"+bucket_name+save_as+"&"+date+"&"+file.size+"&"+SparkMD5.hash(opepass));
+		infoHtml = "文件名称:" + file.name + "<br/>";
+		infoHtml+= "文件大小:" + file.size + "<br/>";
+		infoHtml+= "文件类型:" + file.type + "<br/>";
+		$("#info").html(infoHtml);
+	});
+	$("#sendBtn").click(function () {
+		var xhr = new XMLHttpRequest();
+		xhr.upload.onprogress = function (event) {
+			if (event.lengthComputable) {
+				var percent = Math.round(event.loaded * 100 / event.total);
+				$("#progress").show();
+				$("#percent").text(percent + "%");
+				$("#bar").width( percent+'%');
+			};
+		};
+		xhr.onload=function(event){
+		  $("#progress").hide();
+		  if(xhr.status==200){
+			  alert("上传成功");
+		  }else{alert("上传失败,代码:"+JSON.parse(xhr.responseText).code);}
+		};
+		xhr.open('PUT', acc_point+bucket_name+save_as, true);
+		xhr.setRequestHeader("Authorization","UpYun vss:"+sign);
+		xhr.setRequestHeader("X-Date",date);
+		xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+		xhr.send(file);
+	});
+});
+</script>
+</head>
+<body style="padding-top:50px;">
+<div style="width:440px;height:240px;padding:20px;border:1px solid #C0C0C0;margin:0 auto;border-radius:4px;">
+    <input id="fileupload" type="file" name="file" multiple/><br/>
+    <br/>
+    <br/>
+    <button id="sendBtn">上传</button>
+    <br/>
+    <br/>
+    <div id="info"></div>
+    <br/>
+    <br/>
+	<div id='progress' style="width:300px;height:16px;border:1px solid #ddd;padding-top:1px;border-radius:2px;display:none">
+	<div id='bar' style="float:left;background-color:#4693EC; width:0%; height:14px; border-radius:2px;"></div>
+	<div id='percent' style="float:left;width:0px;display:inline-block; top:0px;font-size:13px;"></div>
+	</div>
+    <br/>
+    <br/>
+</div>
+</body>
+</html>
