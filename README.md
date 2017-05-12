@@ -1,5 +1,5 @@
 ### upyun-H5-Restupload
-1. 基于rest API的PUT方法进行异步上传请求
+1. 基于rest API的PUT方法对又拍云进行异步上传请求
 2. rest.html中注释的4处改为需要的信息即可使用
 
 <pre><code>
