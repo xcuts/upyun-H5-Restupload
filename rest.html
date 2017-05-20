@@ -36,7 +36,7 @@ $(document).ready(function () {
 		  }else{alert("上传失败,代码:"+JSON.parse(xhr.responseText).code);}
 		};
 		xhr.open('PUT', acc_point+bucket_name+save_as, true);
-		xhr.setRequestHeader("Authorization","UpYun "+opename":"+sign);
+		xhr.setRequestHeader("Authorization","UpYun "+opename+":"+sign);
 		xhr.setRequestHeader("X-Date",date);
 		xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
 		xhr.send(file);
