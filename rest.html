@@ -13,7 +13,7 @@ $(document).ready(function () {
 		acc_point="http://v0.api.upyun.com/";
 		date=(new Date()).toUTCString();
 		file=$(this).get(0).files[0];
-		sign=SparkMD5.hash("PUT&/"+bucket_name+save_as+"&"+date+"&"+file.size+"&"+SparkMD5.hash(opepass));
+		sign=SparkMD5.hash("PUT&/"+encodeURI(bucket_name+save_as)+"&"+date+"&"+file.size+"&"+SparkMD5.hash(opepass));
 		infoHtml = "文件名称:" + file.name + "<br/>";
 		infoHtml+= "文件大小:" + file.size + "<br/>";
 		infoHtml+= "文件类型:" + file.type + "<br/>";
@@ -35,7 +35,7 @@ $(document).ready(function () {
 			  alert("上传成功");
 		  }else{alert("上传失败,代码:"+JSON.parse(xhr.responseText).code);}
 		};
-		xhr.open('PUT', acc_point+bucket_name+save_as, true);
+		xhr.open('PUT', acc_point+encodeURI(bucket_name+save_as), true);
 		xhr.setRequestHeader("Authorization","UpYun "+opename+":"+sign);
 		xhr.setRequestHeader("X-Date",date);
 		xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
